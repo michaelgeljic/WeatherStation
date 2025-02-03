@@ -38,12 +38,9 @@ public class WeatherStation implements Runnable {
         while (true) {
             
 
-<<<<<<< HEAD
-            int reading = sensor.read(); // actual sensor reading.
-=======
+
             reading = sensor.read(); // actual sensor reading.
 
->>>>>>> b9db1cc (Removed reading from while loop)
             double kelvin = reading/100.0;
             /*
              * System.out.printf prints formatted data on the output screen.
