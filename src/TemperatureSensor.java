@@ -45,7 +45,7 @@ public class TemperatureSensor {
      * chance of changing direction. Also, we will not allow changes
      * outside of the specific min. and max. temperatures.
      */
-    public int reading() {
+    public int read() {
         final double CUTOFF = 0.8;     // 80% chance to continue temp. trend
         final int MAXCHANGE = 200;     // maximum change in 1/100ths degree
         final int MINCHANGE = 100;     // minimum change in 1/100ths degree

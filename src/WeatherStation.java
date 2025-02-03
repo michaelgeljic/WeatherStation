@@ -39,7 +39,7 @@ public class WeatherStation implements Runnable {
             } catch (Exception e) {
             }    // ignore exceptions
 
-            int reading = sensor.reading(); // actual sensor reading.
+            int reading = sensor.read(); // actual sensor reading.
             double kelvin = reading/100.0;
             /*
              * System.out.printf prints formatted data on the output screen.
