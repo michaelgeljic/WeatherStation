@@ -34,14 +34,16 @@ public class WeatherStation implements Runnable {
      * its sensor, and reports this as a formatted output string.
      */
     public void run() {
+
+        double kelvin;
+        double celsius;
         
         while (true) {
             
-
-
             reading = sensor.read(); // actual sensor reading.
+            celsius = TemperatureUnit.CELSIUS.get(reading);
+            kelvin = TemperatureUnit.KELVIN.get(reading);
 
-            double kelvin = reading/100.0;
             /*
              * System.out.printf prints formatted data on the output screen.
              *
@@ -58,7 +60,7 @@ public class WeatherStation implements Runnable {
              * See docs.oracle.com/javase/tutorial/java/data/numberformat.html
              * for more information on formatting output.
              */
-            System.out.printf("Reading is %6.2f degrees K%n", kelvin);
+            System.out.printf("Reading is %6.2f degrees C and %6.2f degrees K%n",celsius, kelvin);
             try {
                 Thread.sleep(PERIOD);
             } catch (Exception e) {
