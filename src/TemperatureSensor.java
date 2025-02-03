@@ -23,9 +23,9 @@ public class TemperatureSensor {
      * and the default (initial reading)
      *    29315 =  20 C
      */
-    private final int MINREADING = 23315;
-    private final int MAXREADING = 38315;
-    private final int DEFAULT = 29315;
+    private static final int MINREADING = 23315;
+    private static final int MAXREADING = 38315;
+    private static final int DEFAULT = 29315;
 
     private int currentReading;         // current sensor reading
     private boolean increasing = true;  // TRUE if temperature tending up
