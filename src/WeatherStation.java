@@ -18,6 +18,8 @@ public class WeatherStation implements Runnable {
 
     private final long PERIOD = 1000;      // 1 sec = 1000 ms.
 
+    private int reading;
+
     /*
      * When a WeatherStation object is created, it in turn creates the sensor
      * object it will use.
@@ -39,7 +41,12 @@ public class WeatherStation implements Runnable {
             } catch (Exception e) {
             }    // ignore exceptions
 
+<<<<<<< HEAD
             int reading = sensor.read(); // actual sensor reading.
+=======
+            reading = sensor.read(); // actual sensor reading.
+
+>>>>>>> b9db1cc (Removed reading from while loop)
             double kelvin = reading/100.0;
             /*
              * System.out.printf prints formatted data on the output screen.
