@@ -5,6 +5,5 @@
 - [x] Luka Boban
 - [x] Helena Markulin
 - [x] Felicio Orlandini
-- [ ] ...
-- [ ] ...
+- [x] Zarko Zizic
 

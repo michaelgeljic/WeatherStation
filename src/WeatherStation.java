@@ -36,10 +36,7 @@ public class WeatherStation implements Runnable {
     public void run() {
         
         while (true) {
-            try {
-                Thread.sleep(PERIOD);
-            } catch (Exception e) {
-            }    // ignore exceptions
+            
 
 <<<<<<< HEAD
             int reading = sensor.read(); // actual sensor reading.
@@ -65,6 +62,11 @@ public class WeatherStation implements Runnable {
              * for more information on formatting output.
              */
             System.out.printf("Reading is %6.2f degrees K%n", kelvin);
+            try {
+                Thread.sleep(PERIOD);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
         }
     }
 
