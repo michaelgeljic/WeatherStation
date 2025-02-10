@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SwingUI extends JFrame {
+public class SwingUI extends JFrame implements WeatherDisplay{
 
     private final Map<TemperatureUnit, JLabel> jLabelMap; // Stores labels for temperature units
 
@@ -99,5 +99,12 @@ public class SwingUI extends JFrame {
         label.setFont(labelFont);
         panel.add(label);
         return label;
+    }
+
+    @Override
+    public void updateTemperature(TemperatureUnit unit, double value) {
+        if (jLabelMap.containsKey(unit)) {
+            jLabelMap.get(unit).setText(String.format("%6.2f", value));
+        }
     }
 }
