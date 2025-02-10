@@ -11,14 +11,16 @@
  */
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.EnumMap;
+import java.util.Map;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class SwingUI extends JFrame {
 
-    private JLabel celsiusField;   // Displays current Celsius reading
-    private JLabel kelvinField;    // Displays current Kelvin reading
+    private final Map<TemperatureUnit, JLabel> jLabelMap; // Stores labels for temperature units
 
     /**
      * Font object containing font details for rendering text.
@@ -27,25 +29,20 @@ public class SwingUI extends JFrame {
 
     /**
      * Constructs and initializes the SwingUI frame with panels and labels for
-     * displaying temperature readings in Kelvin and Celsius.
+     * displaying temperature readings for all TemperatureUnit values.
      */
     public SwingUI() {
         super("Weather Station");
 
-        // Set layout as a grid with 1 row and multiple columns
-        this.setLayout(new GridLayout(1, 0));
+        jLabelMap = new EnumMap<>(TemperatureUnit.class);
 
-        // Initialize and add Kelvin display panel
-        JPanel panel = new JPanel(new GridLayout(2, 1));
-        this.add(panel);
-        createLabel(" Kelvin ", panel);
-        kelvinField = createLabel("", panel);
+        // Set layout as a grid with 1 row and columns for each temperature unit
+        this.setLayout(new GridLayout(1, TemperatureUnit.values().length));
 
-        // Initialize and add Celsius display panel
-        panel = new JPanel(new GridLayout(2, 1));
-        this.add(panel);
-        createLabel(" Celsius ", panel);
-        celsiusField = createLabel("", panel);
+        // Create and add panels dynamically for each temperature unit
+        for(TemperatureUnit unit : TemperatureUnit.values()){
+            this.add(createPanel(unit));
+        }
 
         // Configure frame settings
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,22 +50,38 @@ public class SwingUI extends JFrame {
         this.setVisible(true);
     }
 
-    /**
-     * Updates the label displaying the Kelvin temperature.
-     *
-     * @param temperature the temperature in Kelvin
-     */
-    public void setKelvinJLabel(double temperature) {
-        kelvinField.setText(String.format("%6.2f", temperature));
-    }
 
     /**
-     * Updates the label displaying the Celsius temperature.
-     *
-     * @param temperature the temperature in Celsius
+     * Updates the label displaying the temperature for a specific unit.
+     * 
+     * @param unit The TemperatureUnit to update
+     * @param value The temperature reading
      */
-    public void setCelsiusJLabel(double temperature) {
-        celsiusField.setText(String.format("%6.2f", temperature));
+    private void setJLabel(TemperatureUnit unit, double value){
+        if (jLabelMap.containsKey(unit)) {
+            jLabelMap.get(unit).setText(String.format("%6.2f", value));
+
+            
+        }else{
+            System.out.println("Error: TemperatureUnit not found in map.");
+        }
+    }
+
+
+
+    /**
+     * Creates a JPanel containing a temperature display with a title label and a value label, then adds it to the frame
+     * 
+     * @param unit The TemperatureUnit to create a panel for
+     * @return The JPanel containing the title and value labels
+     */
+    private JPanel createPanel(TemperatureUnit unit){
+        JPanel panel = new JPanel(new GridLayout(2,1));
+        JLabel titleLabel = createLabel(unit.name(), panel);
+        JLabel valueLabel = createLabel("", panel);
+        // Store the references to the valueLabel in the map
+        jLabelMap.put(unit, valueLabel);
+        return panel;
     }
 
     /**
