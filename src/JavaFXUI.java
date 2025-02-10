@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 
-public class JavaFXUI extends Application {
+public class JavaFXUI extends Application implements WeatherDisplay{
     
     private final Map<TemperatureUnit, Label> labelMap = new EnumMap<>(TemperatureUnit.class);
 
@@ -98,5 +98,12 @@ public class JavaFXUI extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void updateTemperature(TemperatureUnit unit, double value) {
+        if(labelMap.containsKey(unit)){
+            Platform.runLater(() -> labelMap.get(unit).setText(String.format("%6.2f", value)));
+        }
     }
 }

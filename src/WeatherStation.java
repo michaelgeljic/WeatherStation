@@ -17,12 +17,15 @@ public class WeatherStation implements Runnable {
 
     private final TemperatureSensor sensor;  // TemperatureUnit sensor.
 
+    private final WeatherDisplay ui;
+
     /*
      * When a WeatherStation object is created, it in turn creates the sensor
      * object it will use.
      */
-    public WeatherStation() {
+    public WeatherStation(WeatherDisplay ui) {
         sensor = new TemperatureSensor();
+        this.ui = ui;
     }
 
     /*
@@ -37,11 +40,9 @@ public class WeatherStation implements Runnable {
 
             reading = sensor.read();
 
-            System.out.printf(
-                    "Reading is %6.2f degrees K and %6.2f degrees C%n",
-                    TemperatureUnit.KELVIN.get(reading),
-                    TemperatureUnit.CELSIUS.get(reading)
-            );
+            for (TemperatureUnit unit : TemperatureUnit.values()){
+                ui.updateTemperature(unit, unit.get(reading));
+            }
 
             try {
                 Thread.sleep(PERIOD);
@@ -49,14 +50,5 @@ public class WeatherStation implements Runnable {
                 // ignore exceptions
             }
         }
-    }
-
-    /*
-     * Initial main methods.
-     */
-    public static void main(String[] args) {
-        WeatherStation ws = new WeatherStation();
-        Thread thread = new Thread(ws);
-        thread.start();
     }
 }
