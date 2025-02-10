@@ -6,6 +6,9 @@
  *
  * @author Kristina Marasovic [kristina.marasovic@croatia.rit.edu]
  */
+import java.util.EnumMap;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -16,9 +19,9 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 
 public class JavaFXUI extends Application {
+    
+    private final Map<TemperatureUnit, Label> labelMap = new EnumMap<>(TemperatureUnit.class);
 
-    private Label celsiusField;
-    private Label kelvinField;
 
     /**
      * Starts the JavaFX application and initializes the UI.
@@ -33,19 +36,22 @@ public class JavaFXUI extends Application {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(20);
 
-        // Set up Kelvin display
-        VBox kelvinBox = createTemperatureDisplay(" Kelvin ");
-        kelvinField = (Label) kelvinBox.getChildren().get(1);
-        gridPane.add(kelvinBox, 0, 0);
-
-        // Set up Celsius display
-        VBox celsiusBox = createTemperatureDisplay(" Celsius ");
-        celsiusField = (Label) celsiusBox.getChildren().get(1);
-        gridPane.add(celsiusBox, 1, 0);
+      //create and add ui elements
+      int column = 0;
+      for (TemperatureUnit unit : TemperatureUnit.values()) {
+        VBox temperatureBox = createTemperatureDisplay(unit.name());
+        labelMap.put(unit, (Label) temperatureBox.getChildren().get(1)); //stores reference in map
+        gridPane.add(temperatureBox,column++,0);
+    }
 
         Scene scene = new Scene(gridPane, 400, 200);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        WeatherStation station = new WeatherStation(this);
+        Thread stationThread = new Thread(station);
+        stationThread.setDaemon(true); //set as daemon thread so it  stops when the ui closes
+        stationThread.start();
     }
 
     /**
@@ -69,24 +75,20 @@ public class JavaFXUI extends Application {
         return vbox;
     }
 
+   //
     /**
-     * Updates the Kelvin temperature label with the given temperature.
-     *
-     * @param temperature the temperature value to set in Kelvin
+     * updates the temperatrure label dynamically based on the temperatureunit
+     * @param unit the temperatureunit to update
+     * @param temperature the temperature value to set
      */
-    public void setKelvinLabel(double temperature) {
-        Platform.runLater(() -> kelvinField.setText(String.format("%6.2f", temperature)));
+    public void setLabel(TemperatureUnit unit, double temperature) {
+        if (labelMap.containsKey(unit)) {
+            Platform.runLater(() -> labelMap.get(unit).setText(String.format("%6.2f",temperature)));
+        } else {
+            System.out.println("ERROR: temperatureUnit not found in map.");
+        }
     }
-
-    /**
-     * Updates the Celsius temperature label with the given temperature.
-     *
-     * @param temperature the temperature value to set in Celsius
-     */
-    public void setCelsiusLabel(double temperature) {
-        Platform.runLater(() -> celsiusField.setText(String.format("%6.2f", temperature)));
-    }
-
+    
     /**
      * The main method launches the JavaFX application. The launch() method
      * blocks the main thread and waits until the application is closed,
