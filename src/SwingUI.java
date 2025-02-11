@@ -103,8 +103,6 @@ public class SwingUI extends JFrame implements WeatherDisplay{
 
     @Override
     public void updateTemperature(TemperatureUnit unit, double value) {
-        if (jLabelMap.containsKey(unit)) {
-            jLabelMap.get(unit).setText(String.format("%6.2f", value));
-        }
+        setJLabel(unit, value);
     }
 }
