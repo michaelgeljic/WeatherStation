@@ -102,8 +102,6 @@ public class JavaFXUI extends Application implements WeatherDisplay{
 
     @Override
     public void updateTemperature(TemperatureUnit unit, double value) {
-        if(labelMap.containsKey(unit)){
-            Platform.runLater(() -> labelMap.get(unit).setText(String.format("%6.2f", value)));
-        }
+        setLabel(unit,value);
     }
 }
