@@ -12,18 +12,18 @@
  */
 public class WeatherStation implements Runnable {
 
-    private static final long PERIOD = 1000;       // 1 sec = 1000 ms
-    private int reading;                    // sensor reading
+    private static final long PERIOD = 1000; // 1 sec = 1000 ms
+    private int reading; // sensor reading
 
-    private final TemperatureSensor sensor;  // TemperatureUnit sensor.
+    private final TemperatureSensor sensor; // TemperatureUnit sensor.
 
-    private final WeatherDisplay ui;
+    private final WeatherStationUI ui;
 
     /*
      * When a WeatherStation object is created, it in turn creates the sensor
      * object it will use.
      */
-    public WeatherStation(WeatherDisplay ui) {
+    public WeatherStation(WeatherStationUI ui) {
         sensor = new TemperatureSensor();
         this.ui = ui;
     }
@@ -40,8 +40,20 @@ public class WeatherStation implements Runnable {
 
             reading = sensor.read();
 
-            for (TemperatureUnit unit : TemperatureUnit.values()){
-                ui.updateTemperature(unit, unit.get(reading));
+            // for (TemperatureUnit unit : TemperatureUnit.values()) {
+            //     ui.updateTemperature(unit, unit.get(reading));
+
+            // }
+
+            if (ui instanceof TextUI) {
+                ui.update(null, reading);
+
+            } else {
+                for (TemperatureUnit unit : TemperatureUnit.values()) {
+                    ui.update(unit, unit.get(reading));
+
+                }
+
             }
 
             try {

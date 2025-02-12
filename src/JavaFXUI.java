@@ -18,9 +18,19 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 
-public class JavaFXUI extends Application implements WeatherDisplay{
+public class JavaFXUI extends Application implements WeatherStationUI{
     
+    private static JavaFXUI instance;
     private final Map<TemperatureUnit, Label> labelMap = new EnumMap<>(TemperatureUnit.class);
+
+
+    public JavaFXUI(){
+        instance = this;
+    }
+
+    public static JavaFXUI getInstance(){
+        return instance;
+    }
 
 
     /**
@@ -40,18 +50,17 @@ public class JavaFXUI extends Application implements WeatherDisplay{
       int column = 0;
       for (TemperatureUnit unit : TemperatureUnit.values()) {
         VBox temperatureBox = createTemperatureDisplay(unit.name());
-        labelMap.put(unit, (Label) temperatureBox.getChildren().get(1)); //stores reference in map
-        gridPane.add(temperatureBox,column++,0);
-    }
+        Label valuLabel = (Label) temperatureBox.getChildren().get(1);
+        labelMap.put(unit, valuLabel);
+        gridPane.add(temperatureBox, column++, 0);
+        
+      }
 
         Scene scene = new Scene(gridPane, 400, 200);
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        WeatherStation station = new WeatherStation(this);
-        Thread stationThread = new Thread(station);
-        stationThread.setDaemon(true); //set as daemon thread so it  stops when the ui closes
-        stationThread.start();
+       
     }
 
     /**
@@ -96,12 +105,9 @@ public class JavaFXUI extends Application implements WeatherDisplay{
      *
      * @param args command-line arguments
      */
-    public static void main(String[] args) {
-        launch(args);
-    }
-
+    
     @Override
-    public void updateTemperature(TemperatureUnit unit, double value) {
+    public void update(TemperatureUnit unit, double value) {
         setLabel(unit,value);
     }
 }

@@ -1,6 +1,8 @@
+import javafx.application.Application;
 import java.util.Scanner;
 
-public class Main {
+
+public class WeatherStationRunner {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
@@ -13,20 +15,32 @@ public class Main {
         int choice = in.nextInt();
         in.close();
 
+        WeatherStationUI ui = null;
+
         switch (choice) {
             case 1:
-                SwingUI swingUI = new SwingUI();
-                new Thread(new WeatherStation(swingUI)).start();
+                ui = new SwingUI();
                 break;
             case 2:
-                JavaFXUI.main(args);
+                new Thread(() -> Application.launch(JavaFXUI.class)).start();
+                try {
+                    Thread.sleep(2000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ui = JavaFXUI.getInstance();
                 break;
             case 3:
-                TextUI textUI = new TextUI();
-                textUI.start();
+                ui = new TextUI();
                 break;
             default:
                 System.out.println("Invalid choice.");
+                return;
+        }
+
+        if (ui!=null) {
+            new Thread(new WeatherStation(ui)).start();
+            
         }
     }
 }
