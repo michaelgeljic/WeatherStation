@@ -1,3 +1,4 @@
+import java.util.EnumMap;
 
 /**
  * The TextUI class is responsible for displaying information
@@ -14,17 +15,16 @@ public class TextUI implements WeatherStationUI {
      */
     private void print(int reading) {
         System.out.print("Reading is: ");
-        for (TemperatureUnit unit : TemperatureUnit.values()){
+        for (TemperatureUnit unit : TemperatureUnit.values()) {
             System.out.printf("%6.2f degrees %s ", unit.get(reading), unit.name());
         }
         System.out.println();
     }
 
     @Override
-    public void update(TemperatureUnit unit, double value) {
-        print((int) (value)); // uses the existing print() method
+    public void update(EnumMap<MeasurementUnit, Double> labelMap) {
+        for (MeasurementUnit unit : MeasurementUnit.values())
+            print((int) labelMap.get(unit)); // uses the existing print() method
     }
-
-    
 
 }

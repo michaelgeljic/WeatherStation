@@ -18,9 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SwingUI extends JFrame implements WeatherStationUI{
+public class SwingUI extends JFrame implements WeatherStationUI {
 
-    private final Map<TemperatureUnit, JLabel> jLabelMap; // Stores labels for temperature units
+    private final Map<MeasurementUnit, JLabel> jLabelMap = new EnumMap<>(MeasurementUnit.class) // Stores labels for
+    // temperature units
 
     /**
      * Font object containing font details for rendering text.
@@ -40,7 +41,7 @@ public class SwingUI extends JFrame implements WeatherStationUI{
         this.setLayout(new GridLayout(1, TemperatureUnit.values().length));
 
         // Create and add panels dynamically for each temperature unit
-        for(TemperatureUnit unit : TemperatureUnit.values()){
+        for (TemperatureUnit unit : TemperatureUnit.values()) {
             this.add(createPanel(unit));
         }
 
@@ -50,33 +51,30 @@ public class SwingUI extends JFrame implements WeatherStationUI{
         this.setVisible(true);
     }
 
-
     /**
      * Updates the label displaying the temperature for a specific unit.
      * 
-     * @param unit The TemperatureUnit to update
+     * @param unit  The TemperatureUnit to update
      * @param value The temperature reading
      */
-    private void setJLabel(TemperatureUnit unit, double value){
+    private void setJLabel(TemperatureUnit unit, double value) {
         if (jLabelMap.containsKey(unit)) {
             jLabelMap.get(unit).setText(String.format("%6.2f", value));
 
-            
-        }else{
+        } else {
             System.out.println("Error: TemperatureUnit not found in map.");
         }
     }
 
-
-
     /**
-     * Creates a JPanel containing a temperature display with a title label and a value label, then adds it to the frame
+     * Creates a JPanel containing a temperature display with a title label and a
+     * value label, then adds it to the frame
      * 
      * @param unit The TemperatureUnit to create a panel for
      * @return The JPanel containing the title and value labels
      */
-    private JPanel createPanel(TemperatureUnit unit){
-        JPanel panel = new JPanel(new GridLayout(2,1));
+    private JPanel createPanel(TemperatureUnit unit) {
+        JPanel panel = new JPanel(new GridLayout(2, 1));
         JLabel titleLabel = createLabel(unit.name(), panel);
         JLabel valueLabel = createLabel("", panel);
         // Store the references to the valueLabel in the map
@@ -102,7 +100,8 @@ public class SwingUI extends JFrame implements WeatherStationUI{
     }
 
     @Override
-    public void update(TemperatureUnit unit, double value) {
-        setJLabel(unit, value);
+    public void update(EnumMap<MeasurementUnit, Double> labelMap) {
+        for (MeasurementUnit unit : MeasurementUnit.values())
+            setJLabel(unit, labelMap.get(unit));
     }
 }
