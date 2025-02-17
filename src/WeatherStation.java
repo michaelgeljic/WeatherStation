@@ -10,41 +10,50 @@
  * @author Michael J. Lutz
  * @author Kristina Marasovic [kristina.marasovic@rit.edu]
  */
+
+import java.util.EnumMap;
+
 public class WeatherStation implements Runnable {
 
     private static final long PERIOD = 1000; // 1 sec = 1000 ms
-    private int reading; // sensor reading
+    private final EnumMap<SensorType, Sensor> sensorMap; // Maps SensorType to Sensor
 
-    private final TemperatureSensor sensor; // TemperatureUnit sensor.
+    private final EnumMap<MeasurementUnit, Double> readingMap; // Maps MeasurementUnit to values
 
-    private final WeatherStationUI ui;
+    private final WeatherStationUI ui; // UI component
 
     /*
-     * When a WeatherStation object is created, it in turn creates the sensor
-     * object it will use.
+     * Initializes the WeatherStation with multiple sensors and ui
+     * 
      */
     public WeatherStation(WeatherStationUI ui) {
-        sensor = new TemperatureSensor();
         this.ui = ui;
+        this.sensorMap = new EnumMap<>(SensorType.class);
+        this.readingMap = new EnumMap<>(MeasurementUnit.class);
+
+        sensorMap.put(SensorType.TEMPERATURE, new TemperatureSensor());
+        sensorMap.put(SensorType.PRESSURE, new PressureSensor());
     }
 
     /*
-     * The "run" method called by the enclosing Thread object when started.
-     * Repeatedly sleeps a second, acquires the current temperature from its
-     * sensor, and reports this as a formatted output string.
+     * runs the weather station continuously reading sensors and updating the UI
      */
     @Override
     public void run() {
 
         while (true) {
 
-            reading = sensor.read();
+            getSensorReadings(); // Read all sensors
 
             // for (TemperatureUnit unit : TemperatureUnit.values()) {
             //     ui.updateTemperature(unit, unit.get(reading));
 
             // }
-
+            //Update UI with all readings
+            for(MeasurementUnit unit : readingMap.keySet()){
+                ui.update(unit, readingMap.get(unit));
+            }
+/* 
             if (ui instanceof TextUI) {
                 ui.update(null, reading);
 
@@ -55,12 +64,31 @@ public class WeatherStation implements Runnable {
                 }
 
             }
-
+*/
             try {
                 Thread.sleep(PERIOD);
             } catch (InterruptedException e) {
                 // ignore exceptions
             }
+        }
+    }
+    /*
+    Gets the reading from all sensors from all sensors and stores the measures in readingMap
+    */
+    private void getSensorReadings(){
+        Sensor sensor = null;
+        for(SensorType type : SensorType.values()){
+            // get the corresponding sensor from sensorMap
+            sensor = sensorMap.get(type);
+
+            if(sensor != null){
+                int rawReading = sensor.read(); // read sensor data
+
+                // Convert and store readings in readingMap
+                for(MeasurementUnit unit : MeasurementUnit.valuesOf(type)){
+                    readingMap.put(unit, unit.get(rawReading));
+                }
+            } 
         }
     }
 }
