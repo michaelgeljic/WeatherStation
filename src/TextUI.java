@@ -9,22 +9,25 @@ import java.util.EnumMap;
 public class TextUI implements WeatherStationUI {
 
     /**
-     * Prints the temperature reading for all defined TemperatureUnits.
+     * Prints the sensor reading in a structured format.
      *
-     * @param reading raw temperature reading
+     * @param readings EnumMap containing the measurement values
      */
-    private void print(int reading) {
-        System.out.print("Reading is: ");
-        for (MeasurementUnit unit : MeasurementUnit.values()) {
-            System.out.printf("%6.2f degrees %s ", unit.get(reading), unit.name());
-        }
-        System.out.println();
-    }
 
     @Override
-    public void update(EnumMap<MeasurementUnit, Double> labelMap) {
-        for (MeasurementUnit unit : MeasurementUnit.values())
-            print((int) labelMap.get(unit)); // uses the existing print() method
-    }
+    public void update(EnumMap<MeasurementUnit, Double> readings) {
+        StringBuilder temperatureLine = new StringBuilder("TEMPERATURE      ");
+        for (MeasurementUnit unit : MeasurementUnit.valuesOf(SensorType.TEMPERATURE)){
+            temperatureLine.append(String.format("%6.2f %s  ", readings.get(unit), unit.name()));
+        }
+        System.out.println(temperatureLine);
 
+        StringBuilder pressureLine = new StringBuilder("PRESSURE        ");
+        for(MeasurementUnit unit: MeasurementUnit.valuesOf(SensorType.PRESSURE)){
+            pressureLine.append(String.format("%6.2f %s  ", readings.get(unit), unit.name()));
+        }
+        System.out.println(pressureLine);
+
+        System.out.println();
+    }
 }

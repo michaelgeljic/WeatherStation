@@ -50,9 +50,9 @@ public class WeatherStation implements Runnable {
 
             // }
             //Update UI with all readings
-            for(MeasurementUnit unit : readingMap.keySet()){
-                ui.update(unit, readingMap.get(unit));
-            }
+            
+            ui.update(readingMap); 
+            
 /* 
             if (ui instanceof TextUI) {
                 ui.update(null, reading);
