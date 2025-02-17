@@ -4,14 +4,14 @@ import java.util.Random;
  * Implements the Sensor inteface to provide pressure reading
  */
 public class PressureSensor implements Sensor {
-    private static final int MIN = 80000; // 800.00 mbar(low pressure)
-    private static final int MAX = 110000; //1100.00 mbar(high pressure)
-    private static final int DEFAULT = 101325; // 1013.25 mbar(standard pressure)
+    private static final int MIN = 2700; // minimum reading
+    private static final int MAX = 3200; //maximum reading
+    private static final int DEFAULT = 2992; //default reading
 
 
     private int currentPressure; // current sensor reading
     private boolean increasing = true; // True if pressure is increasing
-    private Random rand = new Random(); // Simulate random pressure changes
+    private final Random rand = new Random(); // Simulate random pressure changes
 
 
     /**
@@ -27,16 +27,15 @@ public class PressureSensor implements Sensor {
      */
     @Override
     public int read() {
-        final double CUTOFF = 0.8; // 80% chance to continue trend
-        final int MAXCHANGE = 500; // Maximum change in 1/100ths pressure unit
-        final int MINCHANGE = 100; // Minumum change in 1/100zhs pressure unit
+        final double CUTOFF = 0.75; // 75% chance to continue trend
+        final int MAXDELTA = 20; // maximum read change
         int pressureChange;        // Absoulute value of pressure change
 
         if(rand.nextDouble() > CUTOFF){
             increasing = !increasing; // Switch direction
         }
 
-        pressureChange = rand.nextInt(MAXCHANGE-MINCHANGE) + MINCHANGE;
+        pressureChange = rand.nextInt(MAXDELTA);
         currentPressure = currentPressure + pressureChange * (increasing ? 1:-1);
         // Limit readings to the specified range
         if(currentPressure >= MAX){
