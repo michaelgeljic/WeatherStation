@@ -46,7 +46,7 @@ public class JavaFXUI extends Application implements WeatherStationUI {
 
         // create and add ui elements
         int column = 0;
-        for (TemperatureUnit unit : TemperatureUnit.values()) {
+        for (MeasurementUnit unit : MeasurementUnit.values()) {
             VBox temperatureBox = createTemperatureDisplay(unit.name());
             Label valuLabel = (Label) temperatureBox.getChildren().get(1);
             labelMap.put(unit, valuLabel);
@@ -88,7 +88,7 @@ public class JavaFXUI extends Application implements WeatherStationUI {
      * @param unit        the temperatureunit to update
      * @param temperature the temperature value to set
      */
-    public void setLabel(TemperatureUnit unit, double temperature) {
+    public void setLabel(MeasurementUnit unit, double temperature) {
         if (labelMap.containsKey(unit)) {
             Platform.runLater(() -> labelMap.get(unit).setText(String.format("%6.2f", temperature)));
         } else {
