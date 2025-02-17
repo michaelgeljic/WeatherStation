@@ -13,7 +13,7 @@
  */
 import java.util.Random;   // to simulate random temperature fluctuations.
 
-public class TemperatureSensor {
+public class TemperatureSensor implements Sensor {
 
     /*
      * Min and max readings this sensor will actually report:
@@ -44,6 +44,7 @@ public class TemperatureSensor {
      * chance of changing direction. Also, we will not allow changes
      * outside of the specific min. and max. temperatures.
      */
+    @Override
     public int read() {
         final double CUTOFF = 0.8;     // 80% chance to continue temp. trend
         final int MAXCHANGE = 200;     // maximum change in 1/100ths degree
