@@ -8,12 +8,13 @@ import java.util.List;
  * @author Kristina Marasovic <kristina.marasovic@rit.edu>
  */
 public enum MeasurementUnit {
-    KELVIN(1.0, 0.0),
-    CELSIUS(1.0,-273.15),
-    FAHRENHEIT(1.8, -459.67),
-    INHG(0.0002953,0.0),
-    MBAR(0.01,0.0);
+    KELVIN(SensorType.TEMPERATURE,1.0, 0.0),
+    CELSIUS(SensorType.TEMPERATURE,1.0,-273.15),
+    FAHRENHEIT(SensorType.TEMPERATURE,1.8, -459.67),
+    INHG(SensorType.PRESSURE,0.0002953,0.0),
+    MBAR(SensorType.PRESSURE,0.01,0.0);
 
+    private final SensorType type;
     private final double cf1;
     private final double cf2;
 
@@ -24,7 +25,8 @@ public enum MeasurementUnit {
      * @param cf1 Multiplication factor
      * @param cf2 Addition factor
      */
-    MeasurementUnit(double cf1, double cf2){
+    MeasurementUnit(SensorType type, double cf1, double cf2){
+        this.type = type;
         this.cf1 = cf1;
         this.cf2 = cf2;
     }
@@ -46,10 +48,10 @@ public enum MeasurementUnit {
      * @param sensorType the sensor type to filter by
      * @return List of MeasurementUnits belonging to the specified sensor type
      */
-    public static List<MeasurementUnit> valuesOf(){
+    public static List<MeasurementUnit> valuesOf(SensorType sensorType){
         List<MeasurementUnit> result = new ArrayList<>();
         for(MeasurementUnit unit : values()){
-            if (unit.type ==) {
+            if (unit.type == sensorType) {
                 result.add(unit);
             }
         }
