@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 
 public class SwingUI extends JFrame implements WeatherStationUI {
 
-    private final Map<MeasurementUnit, JLabel> jLabelMap = new EnumMap<>(MeasurementUnit.class) // Stores labels for
+    private final Map<MeasurementUnit, JLabel> jLabelMap; // Stores labels for
     // temperature units
 
     /**
@@ -35,13 +35,13 @@ public class SwingUI extends JFrame implements WeatherStationUI {
     public SwingUI() {
         super("Weather Station");
 
-        jLabelMap = new EnumMap<>(TemperatureUnit.class);
+        jLabelMap = new EnumMap<>(MeasurementUnit.class);
 
         // Set layout as a grid with 1 row and columns for each temperature unit
-        this.setLayout(new GridLayout(1, TemperatureUnit.values().length));
+        this.setLayout(new GridLayout(1, MeasurementUnit.values().length));
 
         // Create and add panels dynamically for each temperature unit
-        for (TemperatureUnit unit : TemperatureUnit.values()) {
+        for (MeasurementUnit unit : MeasurementUnit.values()) {
             this.add(createPanel(unit));
         }
 
@@ -57,7 +57,7 @@ public class SwingUI extends JFrame implements WeatherStationUI {
      * @param unit  The TemperatureUnit to update
      * @param value The temperature reading
      */
-    private void setJLabel(TemperatureUnit unit, double value) {
+    private void setJLabel(MeasurementUnit unit, double value) {
         if (jLabelMap.containsKey(unit)) {
             jLabelMap.get(unit).setText(String.format("%6.2f", value));
 
@@ -73,7 +73,7 @@ public class SwingUI extends JFrame implements WeatherStationUI {
      * @param unit The TemperatureUnit to create a panel for
      * @return The JPanel containing the title and value labels
      */
-    private JPanel createPanel(TemperatureUnit unit) {
+    private JPanel createPanel(MeasurementUnit unit) {
         JPanel panel = new JPanel(new GridLayout(2, 1));
         JLabel titleLabel = createLabel(unit.name(), panel);
         JLabel valueLabel = createLabel("", panel);

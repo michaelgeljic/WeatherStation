@@ -15,7 +15,7 @@ public class TextUI implements WeatherStationUI {
      */
     private void print(int reading) {
         System.out.print("Reading is: ");
-        for (TemperatureUnit unit : TemperatureUnit.values()) {
+        for (MeasurementUnit unit : MeasurementUnit.values()) {
             System.out.printf("%6.2f degrees %s ", unit.get(reading), unit.name());
         }
         System.out.println();
