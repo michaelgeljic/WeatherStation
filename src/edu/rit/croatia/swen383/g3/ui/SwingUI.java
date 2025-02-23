@@ -1,3 +1,4 @@
+package edu.rit.croatia.swen383.g3.ui;
 
 /**
  * Swing UI class used for displaying information from the
@@ -12,16 +13,22 @@
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.EnumMap;
-import java.util.Map;
+
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-public class SwingUI extends JFrame implements WeatherStationUI {
+import edu.rit.croatia.swen383.g3.util.MeasurementUnit;
+import edu.rit.croatia.swen383.g3.ws.WeatherStation;
+import edu.rit.croatia.swen383.g3.observer.*;
+/*SwingUI is Observer that displays real time weather data in graphical interface */
+public class SwingUI extends JFrame implements Observer {
+    private final WeatherStation station;
 
-    private final Map<MeasurementUnit, JLabel> jLabelMap; // Stores labels for
-    // temperature units
+    private final EnumMap<MeasurementUnit, JLabel> labelMap = new EnumMap<>(MeasurementUnit.class) 
+   
 
     /**
      * Font object containing font details for rendering text.
@@ -29,13 +36,15 @@ public class SwingUI extends JFrame implements WeatherStationUI {
     private static final Font labelFont = new Font(Font.SERIF, Font.PLAIN, 72);
 
     /**
-     * Constructs and initializes the SwingUI frame with panels and labels for
-     * displaying temperature readings for all TemperatureUnit values.
+     * Constructs the swingUi and registers it as an observer
+     * @param station The WeatherStation instance
      */
     public SwingUI() {
         super("Weather Station");
+        this.station = station;
+        station.attach(this);
 
-        jLabelMap = new EnumMap<>(MeasurementUnit.class);
+        
 
         // Set layout as a grid with 1 row and columns for each temperature unit
         this.setLayout(new GridLayout(1, MeasurementUnit.values().length));
@@ -57,12 +66,10 @@ public class SwingUI extends JFrame implements WeatherStationUI {
      * @param unit  The TemperatureUnit to update
      * @param value The temperature reading
      */
-    private void setJLabel(MeasurementUnit unit, double value) {
-        if (jLabelMap.containsKey(unit)) {
-            jLabelMap.get(unit).setText(String.format("%6.2f", value));
+    private void setLabel(MeasurementUnit unit, double value) {
+        if (labelMap.containsKey(unit)) {
+            labelMap.get(unit).setText(String.format("%6.2f", value));
 
-        } else {
-            System.out.println("Error: TemperatureUnit not found in map.");
         }
     }
 
@@ -75,10 +82,12 @@ public class SwingUI extends JFrame implements WeatherStationUI {
      */
     private JPanel createPanel(MeasurementUnit unit) {
         JPanel panel = new JPanel(new GridLayout(2, 1));
-        JLabel titleLabel = createLabel(unit.name(), panel);
-        JLabel valueLabel = createLabel("", panel);
+        JLabel titleLabel = createLabel(unit.name());
+        JLabel valueLabel = createLabel("");
         // Store the references to the valueLabel in the map
-        jLabelMap.put(unit, valueLabel);
+        labelMap.put(unit, valueLabel);
+        panel.add(titleLabel);
+        panel.add(valueLabel);
         return panel;
     }
 
@@ -90,18 +99,15 @@ public class SwingUI extends JFrame implements WeatherStationUI {
      * @param panel the panel to which the label is added
      * @return the created JLabel instance
      */
-    private JLabel createLabel(String title, JPanel panel) {
-        JLabel label = new JLabel(title);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.TOP);
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setFont(labelFont);
-        panel.add(label);
         return label;
     }
-
+/*Updates the Swing UI with the latest sensor reading */
     @Override
-    public void update(EnumMap<MeasurementUnit, Double> labelMap) {
+    public void update() {
         for (MeasurementUnit unit : MeasurementUnit.values())
-            setJLabel(unit, labelMap.get(unit));
+            setLabel(unit, station.getReading(unit));
     }
 }
