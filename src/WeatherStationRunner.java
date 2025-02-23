@@ -1,6 +1,10 @@
 import javafx.application.Application;
 import java.util.Scanner;
 
+import edu.rit.croatia.swen383.g3.ui.JavaFXUI;
+import edu.rit.croatia.swen383.g3.ui.SwingUI;
+import edu.rit.croatia.swen383.g3.ui.TextUI;
+
 
 public class WeatherStationRunner {
     public static void main(String[] args) {

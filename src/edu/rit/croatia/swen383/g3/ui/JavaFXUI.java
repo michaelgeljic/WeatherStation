@@ -1,3 +1,4 @@
+package edu.rit.croatia.swen383.g3.ui;
 
 /**
  * JavaFXUI is a JavaFX application that displays temperature readings in both
@@ -8,7 +9,9 @@
  */
 import java.util.EnumMap;
 import java.util.Map;
-
+import edu.rit.croatia.swen383.g3.ws.WeatherStation;
+import edu.rit.croatia.swen383.g3.observer.*;
+import edu.rit.croatia.swen383.g3.util.MeasurementUnit;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -17,18 +20,33 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-
-public class JavaFXUI extends Application implements WeatherStationUI {
+/*The JavaFX Ui class provides a graphical user interface for displying weather data
+ * it observes the Weather station and updates dynamically when new sensor readings arrive
+ */
+public class JavaFXUI extends Application implements Observer {
 
     private static JavaFXUI instance;
-    private final Map<MeasurementUnit, Label> labelMap = new EnumMap<>(MeasurementUnit.class);
-
+    private static WeatherStation station;
+    private final EnumMap<MeasurementUnit, Label> labelMap = new EnumMap<>(MeasurementUnit.class);
+/*
+ * default constructor required by JavaFX
+ * stores the iinstance reference
+ */
     public JavaFXUI() {
         instance = this;
     }
-
+/*
+ * return the single instance of JavaFX Ui
+ */
     public static JavaFXUI getInstance() {
         return instance;
+    }
+/*
+ * Sets the weatherStation instance before JavaFx starts
+ * this method must be called before launching JavaFx application
+ */
+    public static void setWeatherStation(WeatherStation ws){
+        station = ws;
     }
 
     /**
@@ -58,6 +76,10 @@ public class JavaFXUI extends Application implements WeatherStationUI {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        if (station != null) {
+            station.attach(this);
+        }
+
     }
 
     /**
@@ -83,30 +105,32 @@ public class JavaFXUI extends Application implements WeatherStationUI {
 
     //
     /**
-     * updates the temperatrure label dynamically based on the temperatureunit
+     * updates a UI label with the latest measurement value
+     * uses Platform.runLater() to ensure Ui updates happen on JavaFX thread
      * 
-     * @param unit        the temperatureunit to update
-     * @param temperature the temperature value to set
+     * @param unit        the measurement unit being updated
+     * @param temperature the new value for the unit
      */
-    public void setLabel(MeasurementUnit unit, double temperature) {
-        if (labelMap.containsKey(unit)) {
-            Platform.runLater(() -> labelMap.get(unit).setText(String.format("%6.2f", temperature)));
-        } else {
-            System.out.println("ERROR: temperatureUnit not found in map.");
+    public void setLabel(MeasurementUnit unit, double value) {
+        Label label = labelMap.get(unit);
+        if (label != null) {
+            Platform.runLater(() -> label.setText(String.format("%6.2f", value)));
         }
     }
 
     /**
-     * The main method launches the JavaFX application. The launch() method
-     * blocks the main thread and waits until the application is closed,
-     * allowing JavaFX to manage the event loop and UI updates.
-     *
-     * @param args command-line arguments
+     *Updates the JavaFX Ui with the latest sensor readings
+     This method is called when WeatherStation notifies observers of new data
      */
 
     @Override
-    public void update(EnumMap<MeasurementUnit, Double> labelMap) {
-        for (MeasurementUnit unit : MeasurementUnit.values())
-            setLabel(unit, labelMap.get(unit));
+    public void update() {
+        if (station != null) {
+            Platform.runLater(() -> {
+                for(MeasurementUnit unit : MeasurementUnit.values()){
+                    setLabel(unit, station.getReading(unit));
+                }
+            });
+        }
     }
 }
