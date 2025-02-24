@@ -14,19 +14,16 @@ package edu.rit.croatia.swen383.g3.ws;
 
 import java.util.EnumMap;
 
-import edu.rit.croatia.swen383.g3.util.MeasurementUnit;
 import edu.rit.croatia.swen383.g3.observer.Subject;
-import edu.rit.croatia.swen383.g3.sensor.PressureSensor;
-import edu.rit.croatia.swen383.g3.sensor.Sensor;
-import edu.rit.croatia.swen383.g3.util.SensorType;
-import edu.rit.croatia.swen383.g3.sensor.TemperatureSensor;
+import edu.rit.croatia.swen383.g3.sensor.*;
+import edu.rit.croatia.swen383.g3.util.*;
+
 
 public class WeatherStation extends Subject implements Runnable {
 
     private static final long PERIOD = 1000; // 1 sec = 1000 ms
     private final EnumMap<SensorType, Sensor> sensorMap; // Maps SensorType to Sensor
 
-    private final EnumMap<SensorType, Sensor> sensorMap;
 
     private final EnumMap<MeasurementUnit, Double> readingMap; // Maps MeasurementUnit to values
 

@@ -1,4 +1,4 @@
-
+package edu.rit.croatia.swen383.g3.sensor;
 
 import java.util.Random;
 /*
@@ -54,3 +54,4 @@ public class PressureSensor implements Sensor {
     
     
 }
+
