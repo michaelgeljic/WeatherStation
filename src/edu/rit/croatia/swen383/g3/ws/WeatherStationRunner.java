@@ -1,12 +1,13 @@
 package edu.rit.croatia.swen383.g3.ws;
+
 import javafx.application.Application;
 import java.util.Scanner;
 
-import WeatherStationUI;
+import edu.rit.croatia.swen383.g3.ui.ForecastDisplay;
 import edu.rit.croatia.swen383.g3.ui.JavaFXUI;
+import edu.rit.croatia.swen383.g3.ui.StatisticsDisplay;
 import edu.rit.croatia.swen383.g3.ui.SwingUI;
 import edu.rit.croatia.swen383.g3.ui.TextUI;
-
 
 public class WeatherStationRunner {
     public static void main(String[] args) {
@@ -21,32 +22,25 @@ public class WeatherStationRunner {
         int choice = in.nextInt();
         in.close();
 
-        WeatherStationUI ui = null;
+        WeatherStation station = new WeatherStation();
 
         switch (choice) {
             case 1:
-                ui = new SwingUI();
+                new SwingUI(station);
                 break;
             case 2:
+                JavaFXUI.setWeatherStation(station);
                 new Thread(() -> Application.launch(JavaFXUI.class)).start();
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                ui = JavaFXUI.getInstance();
                 break;
             case 3:
-                ui = new TextUI();
+                new TextUI(station);
                 break;
             default:
                 System.out.println("Invalid choice.");
                 return;
         }
 
-        if (ui!=null) {
-            new Thread(new WeatherStation(ui)).start();
-            
-        }
+        new StatisticsDisplay(station);
+        new ForecastDisplay(station);
     }
 }

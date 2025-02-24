@@ -8,6 +8,13 @@
       "type": "java",
       "name": "WeatherStationRunner",
       "request": "launch",
+      "mainClass": "edu.rit.croatia.swen383.g3.ws.WeatherStationRunner",
+      "projectName": "weatherstation800g3_3e6e61d1"
+    },
+    {
+      "type": "java",
+      "name": "WeatherStationRunner",
+      "request": "launch",
       "mainClass": "WeatherStationRunner",
       "projectName": "weatherstation800g3_522e9e6a"
     },
