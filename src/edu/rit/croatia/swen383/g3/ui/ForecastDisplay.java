@@ -28,7 +28,7 @@ public class ForecastDisplay implements Observer{
  */
     @Override // from observer
     public void update() {
-        double currentTemperature = station.getreading(MeasurementUnit.CELSIUS);
+        double currentTemperature = station.getReading(MeasurementUnit.CELSIUS);
 
         forecast = (currentTemperature >= 20 ) ? "Today is Warmer" : "Today is Cooler";
 

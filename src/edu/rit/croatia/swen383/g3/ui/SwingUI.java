@@ -27,7 +27,7 @@ import edu.rit.croatia.swen383.g3.observer.*;
 public class SwingUI extends JFrame implements Observer {
     private final WeatherStation station;
 
-    private final EnumMap<MeasurementUnit, JLabel> labelMap = new EnumMap<>(MeasurementUnit.class) 
+    private final EnumMap<MeasurementUnit, JLabel> labelMap = new EnumMap<>(MeasurementUnit.class);
    
 
     /**
@@ -39,7 +39,7 @@ public class SwingUI extends JFrame implements Observer {
      * Constructs the swingUi and registers it as an observer
      * @param station The WeatherStation instance
      */
-    public SwingUI() {
+    public SwingUI(WeatherStation station) {
         super("Weather Station");
         this.station = station;
         station.attach(this);
