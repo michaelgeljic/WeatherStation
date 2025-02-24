@@ -1,3 +1,4 @@
+package edu.rit.croatia.swen383.g3.sensor;
 
 /**
  * Class for a (simulated) sensor of the temper. We assume the "real"
@@ -72,3 +73,7 @@ public class TemperatureSensor implements Sensor {
         return currentReading;
     }
 }
+
+
+
+

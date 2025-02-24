@@ -3,11 +3,8 @@ package edu.rit.croatia.swen383.g3.ws;
 import javafx.application.Application;
 import java.util.Scanner;
 
-import edu.rit.croatia.swen383.g3.ui.ForecastDisplay;
-import edu.rit.croatia.swen383.g3.ui.JavaFXUI;
-import edu.rit.croatia.swen383.g3.ui.StatisticsDisplay;
-import edu.rit.croatia.swen383.g3.ui.SwingUI;
-import edu.rit.croatia.swen383.g3.ui.TextUI;
+import edu.rit.croatia.swen383.g3.ui.*;
+
 
 public class WeatherStationRunner {
     public static void main(String[] args) {
@@ -42,5 +39,7 @@ public class WeatherStationRunner {
 
         new StatisticsDisplay(station);
         new ForecastDisplay(station);
+
+        new Thread(station).start();
     }
 }
