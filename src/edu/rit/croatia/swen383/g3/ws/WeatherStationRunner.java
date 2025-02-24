@@ -1,6 +1,8 @@
+package edu.rit.croatia.swen383.g3.ws;
 import javafx.application.Application;
 import java.util.Scanner;
 
+import WeatherStationUI;
 import edu.rit.croatia.swen383.g3.ui.JavaFXUI;
 import edu.rit.croatia.swen383.g3.ui.SwingUI;
 import edu.rit.croatia.swen383.g3.ui.TextUI;
