@@ -32,12 +32,10 @@ public class WeatherStation extends Subject implements Runnable {
      * Initializes the WeatherStation with multiple sensors and ui
      * 
      */
-    public WeatherStation() {
-        this.sensorMap = new EnumMap<>(SensorType.class);
+    public WeatherStation(EnumMap<SensorType, Sensor> sensorMap) {
+        this.sensorMap = sensorMap;
         this.readingMap = new EnumMap<>(MeasurementUnit.class);
 
-        sensorMap.put(SensorType.TEMPERATURE, new TemperatureSensor());
-        sensorMap.put(SensorType.PRESSURE, new PressureSensor());
     }
 
     /*
