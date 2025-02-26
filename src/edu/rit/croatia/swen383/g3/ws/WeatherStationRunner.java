@@ -6,8 +6,10 @@ import java.util.EnumMap;
 import java.util.Scanner;
 import edu.rit.croatia.swen383.g3.observer.*;
 import edu.rit.croatia.swen383.g3.sensor.Sensor;
+import edu.rit.croatia.swen383.g3.sensor.SensorFactory;
 import edu.rit.croatia.swen383.g3.ui.*;
 import edu.rit.croatia.swen383.g3.util.SensorType;
+import edu.rit.croatia.swen383.g3.util.UIType;
 
 /**
  * WeatherStationRunner initializes the WeatherStation and UI components
@@ -22,7 +24,7 @@ public class WeatherStationRunner {
         String input = in.next().toUpperCase();
         in.close();
 
-        //Parese user input into UIType
+        // Parese user input into UIType
         UIType selectedUIType = UIType.valueOf(input);
 
         // Create sensors using SensoryFactory
@@ -30,16 +32,16 @@ public class WeatherStationRunner {
         sensorMap.put(SensorType.TEMPERATURE, SensorFactory.createSensor(SensorType.TEMPERATURE));
         sensorMap.put(SensorType.PRESSURE, SensorFactory.createSensor(SensorType.PRESSURE));
 
-        //initialize WeatherStation with the sensor map
+        // initialize WeatherStation with the sensor map
         WeatherStation station = new WeatherStation(sensorMap);
 
-        //use UIFactory to create UI dynamically
+        // use UIFactory to create UI dynamically
         Observer ui = UIFactory.createUI(selectedUIType, station);
 
         new StatisticsDisplay(station);
         new ForecastDisplay(station);
 
-        //start WeatherStation thread
+        // start WeatherStation thread
         new Thread(station).start();
 
     }
