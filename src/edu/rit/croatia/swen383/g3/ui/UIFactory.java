@@ -30,6 +30,10 @@ public class UIFactory {
                 JavaFXUI.setWeatherStation(station);
                 new Thread(()-> Application.launch(JavaFXUI.class)).start();
                 return JavaFXUI.getInstance();
+            case STAT:
+                return new StatisticsDisplay(station);
+            case FORECAST:
+                return new ForecastDisplay(station);
                 
             default:
                 throw new IllegalArgumentException("Unknown UI type: " + type);

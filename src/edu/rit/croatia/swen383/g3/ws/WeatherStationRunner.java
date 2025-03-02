@@ -18,28 +18,34 @@ import edu.rit.croatia.swen383.g3.util.UIType;
 
 public class WeatherStationRunner {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+    //     Scanner in = new Scanner(System.in);
 
-        System.out.print("Select UI (TEXT, SWING, JAVAFX): ");
-        String input = in.next().toUpperCase();
-        in.close();
+    //   //  System.out.print("Select UI (TEXT, SWING, JAVAFX): ");
+    //     String input = in.next().toUpperCase();
+    //     in.close();
 
         // Parese user input into UIType
-        UIType selectedUIType = UIType.valueOf(input);
+       // UIType selectedUIType = UIType.valueOf(input);
 
         // Create sensors using SensoryFactory
         EnumMap<SensorType, Sensor> sensorMap = new EnumMap<>(SensorType.class);
-        sensorMap.put(SensorType.TEMPERATURE, SensorFactory.createSensor(SensorType.TEMPERATURE));
-        sensorMap.put(SensorType.PRESSURE, SensorFactory.createSensor(SensorType.PRESSURE));
+        for(SensorType sensorType : SensorType.values()){
+            sensorMap.put(sensorType, SensorFactory.createSensor(sensorType));
+        }
 
         // initialize WeatherStation with the sensor map
         WeatherStation station = new WeatherStation(sensorMap);
 
         // use UIFactory to create UI dynamically
-        Observer ui = UIFactory.createUI(selectedUIType, station);
+        //Observer ui = UIFactory.createUI(selectedUIType, station);
 
-        new StatisticsDisplay(station);
-        new ForecastDisplay(station);
+         for(UIType uiType : UIType.values()){
+             Observer ui = UIFactory.createUI(uiType, station);
+         }
+
+
+        // new StatisticsDisplay(station);
+        // new ForecastDisplay(station);
 
         // start WeatherStation thread
         new Thread(station).start();
