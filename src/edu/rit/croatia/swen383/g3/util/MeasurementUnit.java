@@ -14,7 +14,8 @@ public enum MeasurementUnit {
     CELSIUS(SensorType.TEMPERATURE,1.0,-27315),
     FAHRENHEIT(SensorType.TEMPERATURE,1.8, -45967),
     INHG(SensorType.PRESSURE,1,0.0),
-    MBAR(SensorType.PRESSURE,33.864,0.0);
+    MBAR(SensorType.PRESSURE,33.864,0.0),
+    HUMIDITY(SensorType.HUMIDITY, 1, 0.0);
 
     private final SensorType type;
     private final double cf1;
