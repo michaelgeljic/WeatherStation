@@ -42,6 +42,12 @@ public class TextUI implements Observer {
         }
         System.out.println(pressureLine);
 
+        StringBuilder humidityLine = new StringBuilder("Humidity     ");
+        for(MeasurementUnit unit : MeasurementUnit.valuesOf(SensorType.HUMIDITY)) {
+            humidityLine.append(String.format("%6.2f %s ",station.getReading(unit), unit.name()));
+        }
+        System.out.println(humidityLine);
+
         System.out.println();
     }
 }
