@@ -11,6 +11,6 @@ public class HumiditySensor implements Sensor {
 
     @Override
     public int read(){
-        return humidityReader.get();
+        return (humidityReader.get()*100) ;
     }
 }
