@@ -1,9 +1,6 @@
 package edu.rit.croatia.swen383.g3.ws;
 
-import javafx.application.Application;
-
 import java.util.EnumMap;
-import java.util.Scanner;
 import edu.rit.croatia.swen383.g3.observer.*;
 import edu.rit.croatia.swen383.g3.sensor.Sensor;
 import edu.rit.croatia.swen383.g3.sensor.SensorFactory;
@@ -18,18 +15,18 @@ import edu.rit.croatia.swen383.g3.util.UIType;
 
 public class WeatherStationRunner {
     public static void main(String[] args) {
-    //     Scanner in = new Scanner(System.in);
+        // Scanner in = new Scanner(System.in);
 
-    //   //  System.out.print("Select UI (TEXT, SWING, JAVAFX): ");
-    //     String input = in.next().toUpperCase();
-    //     in.close();
+        // // System.out.print("Select UI (TEXT, SWING, JAVAFX): ");
+        // String input = in.next().toUpperCase();
+        // in.close();
 
         // Parese user input into UIType
-       // UIType selectedUIType = UIType.valueOf(input);
+        // UIType selectedUIType = UIType.valueOf(input);
 
         // Create sensors using SensoryFactory
         EnumMap<SensorType, Sensor> sensorMap = new EnumMap<>(SensorType.class);
-        for(SensorType sensorType : SensorType.values()){
+        for (SensorType sensorType : SensorType.values()) {
             sensorMap.put(sensorType, SensorFactory.createSensor(sensorType));
         }
 
@@ -37,12 +34,12 @@ public class WeatherStationRunner {
         WeatherStation station = new WeatherStation(sensorMap);
 
         // use UIFactory to create UI dynamically
-        //Observer ui = UIFactory.createUI(selectedUIType, station);
+        // Observer ui = UIFactory.createUI(selectedUIType, station);
 
-         for(UIType uiType : UIType.values()){
-             Observer ui = UIFactory.createUI(uiType, station);
-         }
-
+        for (UIType uiType : UIType.values()) {
+            @SuppressWarnings("unused")
+            Observer ui = UIFactory.createUI(uiType, station);
+        }
 
         // new StatisticsDisplay(station);
         // new ForecastDisplay(station);

@@ -17,6 +17,8 @@ public class SensorFactory {
                 return new TemperatureSensor();
             case PRESSURE:
                 return new PressureSensor();
+            case HUMIDITY:
+                return new HumiditySensor();
             default:
                 throw new IllegalArgumentException("Unknown sensor type:" + ' ' + type);
         }

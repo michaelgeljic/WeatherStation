@@ -8,7 +8,6 @@ package edu.rit.croatia.swen383.g3.ui;
  * @author Kristina Marasovic [kristina.marasovic@croatia.rit.edu]
  */
 import java.util.EnumMap;
-import java.util.Map;
 import edu.rit.croatia.swen383.g3.ws.WeatherStation;
 import edu.rit.croatia.swen383.g3.observer.*;
 import edu.rit.croatia.swen383.g3.util.MeasurementUnit;
@@ -20,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
+
 /*The JavaFX Ui class provides a graphical user interface for displying weather data
  * it observes the Weather station and updates dynamically when new sensor readings arrive
  */
@@ -28,24 +28,27 @@ public class JavaFXUI extends Application implements Observer {
     private static JavaFXUI instance;
     private static WeatherStation station;
     private final EnumMap<MeasurementUnit, Label> labelMap = new EnumMap<>(MeasurementUnit.class);
-/*
- * default constructor required by JavaFX
- * stores the iinstance reference
- */
+
+    /*
+     * default constructor required by JavaFX
+     * stores the iinstance reference
+     */
     public JavaFXUI() {
         instance = this;
     }
-/*
- * return the single instance of JavaFX Ui
- */
+
+    /*
+     * return the single instance of JavaFX Ui
+     */
     public static JavaFXUI getInstance() {
         return instance;
     }
-/*
- * Sets the weatherStation instance before JavaFx starts
- * this method must be called before launching JavaFx application
- */
-    public static void setWeatherStation(WeatherStation ws){
+
+    /*
+     * Sets the weatherStation instance before JavaFx starts
+     * this method must be called before launching JavaFx application
+     */
+    public static void setWeatherStation(WeatherStation ws) {
         station = ws;
     }
 
@@ -119,15 +122,15 @@ public class JavaFXUI extends Application implements Observer {
     }
 
     /**
-     *Updates the JavaFX Ui with the latest sensor readings
-     This method is called when WeatherStation notifies observers of new data
+     * Updates the JavaFX Ui with the latest sensor readings
+     * This method is called when WeatherStation notifies observers of new data
      */
 
     @Override
     public void update() {
         if (station != null) {
             Platform.runLater(() -> {
-                for(MeasurementUnit unit : MeasurementUnit.values()){
+                for (MeasurementUnit unit : MeasurementUnit.values()) {
                     setLabel(unit, station.getReading(unit));
                 }
             });

@@ -1,6 +1,5 @@
 package edu.rit.croatia.swen383.g3.ui;
 
-
 import edu.rit.croatia.swen383.g3.util.MeasurementUnit;
 import edu.rit.croatia.swen383.g3.util.SensorType;
 import edu.rit.croatia.swen383.g3.ws.WeatherStation;
@@ -15,9 +14,9 @@ import edu.rit.croatia.swen383.g3.observer.*;
 public class TextUI implements Observer {
     private final WeatherStation station;
 
-    /*Constructs a TextUi and registers it as an observer */
+    /* Constructs a TextUi and registers it as an observer */
 
-    public TextUI(WeatherStation station){
+    public TextUI(WeatherStation station) {
         this.station = station;
         station.attach(this);
     }
@@ -31,16 +30,23 @@ public class TextUI implements Observer {
     @Override
     public void update() {
         StringBuilder temperatureLine = new StringBuilder("TEMPERATURE      ");
-        for (MeasurementUnit unit : MeasurementUnit.valuesOf(SensorType.TEMPERATURE)){
+        for (MeasurementUnit unit : MeasurementUnit.valuesOf(SensorType.TEMPERATURE)) {
             temperatureLine.append(String.format("%6.2f %s  ", station.getReading(unit), unit.name()));
         }
         System.out.println(temperatureLine);
 
         StringBuilder pressureLine = new StringBuilder("PRESSURE        ");
-        for(MeasurementUnit unit: MeasurementUnit.valuesOf(SensorType.PRESSURE)){
-            pressureLine.append(String.format("%6.2f %s  ",station.getReading(unit), unit.name()));
+        for (MeasurementUnit unit : MeasurementUnit.valuesOf(SensorType.PRESSURE)) {
+            pressureLine.append(String.format("%6.2f %s  ", station.getReading(unit), unit.name()));
         }
         System.out.println(pressureLine);
+
+        StringBuilder humidityLine = new StringBuilder("HUMIDITY     ");
+        for (MeasurementUnit unit : MeasurementUnit.valuesOf(SensorType.HUMIDITY)) {
+            double humidityValue = station.getReading(unit);
+            humidityLine.append(String.format("%.0f%%", humidityValue));
+        }
+        System.out.println(humidityLine);
 
         System.out.println();
     }
