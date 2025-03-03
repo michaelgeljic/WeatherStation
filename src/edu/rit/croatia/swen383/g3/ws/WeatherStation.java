@@ -23,8 +23,6 @@ public class WeatherStation extends Subject implements Runnable {
 
     private static final long PERIOD = 1000; // 1 sec = 1000 ms
     private final EnumMap<SensorType, Sensor> sensorMap; // Maps SensorType to Sensor
-
-
     private final EnumMap<MeasurementUnit, Double> readingMap; // Maps MeasurementUnit to values
 
    
