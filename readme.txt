@@ -1,4 +1,4 @@
-**INSTRUCTIONS ON HOW TO USE OUR WeatherStation PROGRAM
+**INSTRUCTIONS ON HOW TO USE WeatherStation PROGRAM
 
 1. Redirect yourself to the Main.java file in the src directory
 
