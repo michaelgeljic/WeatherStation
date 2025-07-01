@@ -8,8 +8,6 @@ import edu.rit.croatia.swen383.g3.observer.*;
 /**
  * The TextUI class is responsible for displaying information
  * from the associated weather station object.
- *
- * @author Kristina Marasovic [kristina.marasovic@croatia.rit.edu]
  */
 public class TextUI implements Observer {
     private final WeatherStation station;
