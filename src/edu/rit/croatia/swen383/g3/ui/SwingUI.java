@@ -6,9 +6,6 @@ package edu.rit.croatia.swen383.g3.ui;
  * This class extends {@link JFrame}, the outermost container in a Swing
  * application.
  *
- * @author Michael J. Lutz
- * @author Kristina Marasovic [kristina.marasovic@croatia.rit.edu]
- *
  */
 import java.awt.Font;
 import java.awt.GridLayout;
