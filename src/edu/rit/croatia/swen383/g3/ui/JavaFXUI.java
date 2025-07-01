@@ -5,7 +5,7 @@ package edu.rit.croatia.swen383.g3.ui;
  * Celsius and Kelvin formats. It provides a simple UI with labels to show
  * temperature values and allows updating them dynamically.
  *
- * @author Kristina Marasovic [kristina.marasovic@croatia.rit.edu]
+
  */
 import java.util.EnumMap;
 import edu.rit.croatia.swen383.g3.ws.WeatherStation;
