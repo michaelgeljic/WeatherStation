@@ -6,8 +6,6 @@ import java.util.List;
 /**
  * Enum for measurement conversion factors
  * Supports temperature and pressure
- *
- * @author Kristina Marasovic <kristina.marasovic@rit.edu>
  */
 public enum MeasurementUnit {
     KELVIN(SensorType.TEMPERATURE,1.0, 0.0),
