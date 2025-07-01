@@ -8,8 +8,6 @@ package edu.rit.croatia.swen383.g3.ws;
  *
  * This class is implements Runnable so that it can be embedded in a Thread
  * which runs the periodic sensing.
- * @author Michael J. Lutz
- * @author Kristina Marasovic [kristina.marasovic@rit.edu]
  */
 
 import java.util.EnumMap;
