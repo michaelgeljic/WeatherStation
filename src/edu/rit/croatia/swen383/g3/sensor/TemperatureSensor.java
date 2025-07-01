@@ -10,7 +10,6 @@ package edu.rit.croatia.swen383.g3.sensor;
  * 29315 = 293.15 degrees Kelvin = 20 degrees Celsius
  *
  * @author Michael J. Lutz
- * @author Kristina Marasovic [kristina.marasovic@rit.edu]
  */
 import java.util.Random;   // to simulate random temperature fluctuations.
 
